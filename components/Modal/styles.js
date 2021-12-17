@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import colors from '../../styles/colors'
+import { Card } from '../../styles/Global'
 
 export const StyledModal = styled.div`
   position: absolute;
@@ -26,7 +27,7 @@ export const ModalOverlay = styled.div`
   z-index: 999;
 `
 
-export const ModalCard = styled.div `
+export const ModalCard = styled(Card) `
   position: absolute;
   display: flex;
   flex-direction: column;

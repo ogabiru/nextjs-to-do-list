@@ -1,8 +1,26 @@
 import React, {useRef} from 'react'
 import { PropTypes } from 'prop-types';
 import lodash from 'lodash'
-import todoStyles from '../../styles/Todo.module.css'
-import styles from '../../styles/Global.module.css'
+
+import {
+  FormField,
+  Grid,
+  H2,
+  Button
+} from '../../styles/Global'
+
+import {
+  Todos,
+  Todo,
+  TodoHeader,
+  TodoDelete,
+  TodoTitle,
+  TodoDescription,
+  TodoTime,
+  TodoFooter,
+} from './styles'
+import colors from '../../styles/colors'
+
 import { msToTime } from '../../utils/time' 
 
 const TodoList = ({todos, remove, create, start, pause, finish}) => {
@@ -37,77 +55,82 @@ const TodoList = ({todos, remove, create, start, pause, finish}) => {
         titleRef.current.value = ''
         descRef.current.value = ''
       }}>
-        <div className={styles.form_field}>
+        <FormField>
           <label>Title</label>
           <input type="text" ref={titleRef}></input>
-        </div>
-        <div className={styles.form_field}>
+        </FormField>
+        <FormField>
           <label>Description</label>
           <textarea ref={descRef}></textarea>
-        </div>
-        <div><button type="submit">Add To Do</button></div>
+        </FormField>
+        <div><Button type="submit">Add To Do</Button></div>
       </form>
-      <div className={styles.grid}>
+      <Grid>
         <div>
-          <h2 className={styles.text_primary}>To do list</h2>
-          <ul className={todoStyles.todo_list}>
+          <H2 color={colors.primaryDark}>To do list</H2>
+          <Todos>
             {
               (grouped.created !== undefined) && grouped.created.map( todo => {
                 return (
-                  <li key={todo.id}
-                  className={`${todoStyles.todo} ${styles.card} ${styles.primary}`}>
-                    <i onClick={() => remove(todo)} className={styles.text_white}>Delete</i>
-                    <strong>{todo.title}</strong>
-                    <span>{todo.description}</span>
-                    <small>Time spent: {getTimeSpent(todo)}</small>
-                    <div><button onClick={() => start(todo)}>Start</button></div>
-                  </li>
+                  <Todo key={todo.id} color={colors.primary}>
+                    <TodoHeader>
+                      <TodoDelete onClick={() => remove(todo)}>Delete</TodoDelete>
+                    </TodoHeader>
+                    <TodoTitle>{todo.title}</TodoTitle>
+                    <TodoDescription>{todo.description}</TodoDescription>
+                    <TodoTime>Time spent: {getTimeSpent(todo)}</TodoTime>
+                    <TodoFooter>
+                      <Button onClick={() => start(todo)}>Start</Button>
+                    </TodoFooter>
+                  </Todo>
                 )
               })
             }
-          </ul>
+          </Todos>
         </div>
         <div>
-          <h2 className={styles.text_warning}>In progress</h2>
-          <ul className={todoStyles.todo_list}>
+          <H2 color={colors.warningDark}>In progress</H2>
+          <Todos>
             {
               (grouped.started !== undefined) && grouped.started.map( todo => {
                 return (
-                  <li key={todo.id}
-                  className={`${todoStyles.todo} ${styles.card} ${styles.warning}`}>
-                    <i onClick={() => remove(todo)} className={styles.text_white}>Delete</i>
-                    <strong>{todo.title}</strong>
-                    <span>{todo.description}</span>
-                    <small>Started at: {new Date(todo.started_at).toUTCString()}</small>
-                    <div>
-                      <button onClick={() => pause(todo)}>Pause</button>
-                      <button onClick={() => finish(todo)}>Finish</button>
-                    </div>
-                  </li>
+                  <Todo key={todo.id} color={colors.warning}>
+                    <TodoHeader>
+                      <TodoDelete onClick={() => remove(todo)}>Delete</TodoDelete>
+                    </TodoHeader>
+                    <TodoTitle>{todo.title}</TodoTitle>
+                    <TodoDescription>{todo.description}</TodoDescription>
+                    <TodoTime>Started at: {new Date(todo.started_at).toUTCString()}</TodoTime>
+                    <TodoFooter>
+                      <Button onClick={() => pause(todo)}>Pause</Button>
+                      <Button onClick={() => finish(todo)}>Finish</Button>
+                    </TodoFooter>
+                  </Todo>
                 )
               })
             }
-          </ul>
+          </Todos>
         </div>
         <div>
-          <h2 className={styles.text_success}>Finished</h2>
-          <ul className={todoStyles.todo_list}>
+          <H2 color={colors.successDark}>Finished</H2>
+          <Todos>
             {
               (grouped.finished !== undefined) && grouped.finished.map( todo => {
                 return (
-                  <li key={todo.id}
-                  className={`${todoStyles.todo} ${styles.card} ${styles.success}`}>
-                    <i onClick={() => remove(todo)} className={styles.text_white}>Delete</i>
-                    <strong>{todo.title}</strong>
-                    <span>{todo.description}</span>
-                    <small>Time spent: {getTimeSpent(todo)}</small>
-                  </li>
+                  <Todo key={todo.id} color={colors.success}>
+                    <TodoHeader>
+                      <TodoDelete onClick={() => remove(todo)}>Delete</TodoDelete>
+                    </TodoHeader>
+                    <TodoTitle>{todo.title}</TodoTitle>
+                    <TodoDescription>{todo.description}</TodoDescription>
+                    <TodoTime>Time spent: {getTimeSpent(todo)}</TodoTime>
+                  </Todo>
                 )
               })
             }
-          </ul>
+          </Todos>
         </div>
-      </div>
+      </Grid>
     </div>
   )
 }
