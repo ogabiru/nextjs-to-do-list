@@ -1,8 +1,15 @@
 import React, {useEffect} from 'react'
 import ReactDOM from 'react-dom'
-import { PropTypes } from 'prop-types';
-import styles from '../styles/Global.module.css'
-import modalStyles from '../styles/Modal.module.css'
+import { PropTypes } from 'prop-types'
+import {
+  StyledModal,
+  ModalOverlay,
+  ModalCard,
+  ModalHeader,
+  ModalContent,
+  ModalFooter,
+  ModalClose
+} from './styles'
 
 let modalEl = null;
 
@@ -12,25 +19,25 @@ const Modal = ({open, title, content, close, actionTitle, action}) => {
     let actionFooter = null
     if (actionTitle !== undefined && action !== undefined) {
       actionFooter = (
-        <div className={modalStyles.modal_footer}>
+        <ModalFooter>
           <button onClick={() => action()}>{actionTitle}</button>
-        </div>
+        </ModalFooter>
       )
     }
     return(
-      <div className={modalStyles.modal}>
-        <div className={modalStyles.modal_overlay} onClick={() => close()}></div>
-        <div className={`${modalStyles.modal_card} ${styles.card}`}>
-          <div className={modalStyles.modal_header}>
+      <StyledModal>
+        <ModalOverlay onClick={() => close()} />
+        <ModalCard>
+          <ModalHeader>
             <h2>{title}</h2>
-            <button onClick={() => close()}>x</button>
-          </div>
-          <div className={modalStyles.modal_content}>
+            <ModalClose onClick={() => close()}>x</ModalClose>
+          </ModalHeader>
+          <ModalContent>
             {content}
-          </div>
+          </ModalContent>
           {actionFooter}
-        </div>
-      </div>
+        </ModalCard>
+      </StyledModal>
     )
   }
 

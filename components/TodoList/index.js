@@ -1,9 +1,9 @@
 import React, {useRef} from 'react'
 import { PropTypes } from 'prop-types';
-import todoStyles from '../styles/Todo.module.css'
-import styles from '../styles/Global.module.css'
 import lodash from 'lodash'
-import { msToTime } from '../utils/time' 
+import todoStyles from '../../styles/Todo.module.css'
+import styles from '../../styles/Global.module.css'
+import { msToTime } from '../../utils/time' 
 
 const TodoList = ({todos, remove, create, start, pause, finish}) => {
   const titleRef = useRef()
