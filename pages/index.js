@@ -44,20 +44,21 @@ export default function App() {
       const res = await createTodo({title: title, description: description})
       if (res.error !== undefined) {
         openErrorModal('Error', res.error)
+      } else {
+        allTodos()
       }
     } catch (err) {
       console.log(err)
     }
-    allTodos()
   }
 
   const removeTodo = async () => {
     try {
       await deleteTodo(modalTodo.activeTodo.id)
+      allTodos()
     } catch (err) {
       console.log(err)
     }
-    allTodos()
     closeModal()
   }
 
@@ -73,10 +74,10 @@ export default function App() {
           time_spent: todo.time_spent
         }
       )
+      allTodos()
     } catch (err) {
       console.log(err)
     }
-    allTodos()
   }
 
   const pauseTodo = async (todo) => {
@@ -91,10 +92,10 @@ export default function App() {
           time_spent: (todo.time_spent + (new Date().getTime() - todo.started_at))
         }
       )
+      allTodos()
     } catch (err) {
       console.log(err)
     }
-    allTodos()
   }
 
   const finishTodo = async (todo) => {
@@ -109,10 +110,10 @@ export default function App() {
           time_spent: (todo.time_spent + (new Date().getTime() - todo.started_at))
         }
       )
+      allTodos()
     } catch (err) {
       console.log(err)
     }
-    allTodos()
   }
 
   useEffect(async () => {
