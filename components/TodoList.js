@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 import todoStyles from '../styles/Todo.module.css'
 import styles from '../styles/Global.module.css'
 import lodash from 'lodash'
+import { msToTime } from '../utils/time' 
 
 const TodoList = ({todos, remove, create, start, pause, finish}) => {
   const titleRef = useRef()
@@ -17,17 +18,6 @@ const TodoList = ({todos, remove, create, start, pause, finish}) => {
       return 'created'
     }
   })
-
-  const msToTime = ms => {
-    let seconds = (ms / 1000).toFixed(1);
-    let minutes = (ms / (1000 * 60)).toFixed(1);
-    let hours = (ms / (1000 * 60 * 60)).toFixed(1);
-    let days = (ms / (1000 * 60 * 60 * 24)).toFixed(1);
-    if (seconds < 60) return seconds + " Sec";
-    else if (minutes < 60) return minutes + " Min";
-    else if (hours < 24) return hours + " Hrs";
-    else return days + " Days"
-  }
 
   const getTimeSpent = todo => {
     let time_spent = 0;
