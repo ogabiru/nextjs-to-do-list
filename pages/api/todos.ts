@@ -1,5 +1,6 @@
-var sqlite3 = require('sqlite3').verbose();
-var fs = require('fs');
+import type { NextApiRequest, NextApiResponse } from 'next'
+import sqlite3 from 'sqlite3'
+import fs from 'fs'
 
 const dir = './db/'
 const file = 'todos.db'
@@ -17,14 +18,17 @@ async function checkDatabase() {
   db.close();
 }
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   //Check if database exists, if not, create it
   await checkDatabase();
 
   let db = new sqlite3.Database(dir+file)
 
   if (req.method === 'GET') {
-    await db.all("SELECT * FROM todos", (err, rows) => {
+    await db.all("SELECT * FROM todos", (err: Error, rows: any[]) => {
       if (err) {
         res.status(404).json({error: 'No to do found'})
       }
@@ -35,7 +39,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     await db.all("INSERT INTO todos (title, description, created_at) values (?, ?, ?)",
     [req.body.title, req.body.description, new Date().getTime()],
-    (err, rows) => {
+    (err: Error, rows: any[]) => {
       if (err) {
         res.status(200).json({error: 'Not possible to add this to do'})
       }
